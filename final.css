@@ -1,0 +1,480 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #fff5f6, #ffe0e3);
+    font-family: 'Love Ya Like A Sister', cursive;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 600px;
+    margin: 20px;
+    border: 3px solid rgba(255, 182, 193, 0.3);
+    animation: fadeIn 1s ease-out;
+}
+
+h1 {
+    color: rgb(175, 75, 92);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #ff6b6b;
+    font-size: 1.8rem;
+    margin: 20px 0;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+/* Floating hearts background */
+.heart {
+    position: absolute;
+    font-size: 20px;
+    color: rgba(255, 107, 107, 0.3);
+    animation: float 6s ease-in-out infinite;
+    z-index: -1;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add floating hearts with JavaScript */
+
+.date-picker {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 1s;
+}
+
+.date-input {
+    font-family: 'Love Ya Like A Sister', cursive;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: 2px solid rgba(255, 182, 193, 0.5);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff6b6b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.date-input:hover, .date-input:focus {
+    border-color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+    outline: none;
+}
+
+.submit-btn {
+    background: linear-gradient(145deg, #ff6b6b, #ff8e8e);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 12px 30px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Love Ya Like A Sister', cursive;
+    margin-top: 20px;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+.submit-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(145deg, #ff8e8e, #ff6b6b);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.submit-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Style the date picker calendar popup */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    padding: 5px;
+    filter: invert(60%) sepia(50%) saturate(1000%) hue-rotate(310deg);
+    opacity: 0.7;
+    transition: all 0.3s ease;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+/* Add these styles at the end of the file */
+.message {
+    color: #ff6b6b;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 1.5s;
+}
+
+#dateDisplay {
+    color: #ff4d4d;
+    font-size: 1.8rem;
+    margin: 20px 0;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 1s;
+}
+
+/* Add these new styles */
+.food-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+    width: 100%;
+    padding: 0 10px;
+}
+
+.food-card {
+    position: relative;
+    cursor: pointer;
+    perspective: 1000px;
+}
+
+.food-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+.card-content {
+    background: white;
+    border-radius: 12px;
+    padding: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.card-content img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.card-content span {
+    color: #ff6b6b;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 5px;
+}
+
+/* Checkbox checked state */
+.food-card input[type="checkbox"]:checked + .card-content {
+    border-color: #ff6b6b;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.food-card:hover .card-content {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Add these styles for the next button */
+.next-btn {
+    background: linear-gradient(145deg, #ff6b6b, #ff8e8e);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 12px 35px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Love Ya Like A Sister', cursive;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.8s;
+}
+
+.next-btn .arrow {
+    font-size: 1.4rem;
+    transition: transform 0.3s ease;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(145deg, #ff8e8e, #ff6b6b);
+    border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.next-btn:hover .arrow {
+    transform: translateX(5px);
+}
+
+.next-btn:active {
+    transform: translateY(1px) scale(0.98);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Add media queries for responsiveness */
+@media (max-width: 600px) {
+    .food-options {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .card-content img {
+        height: 80px;
+    }
+
+    .card-content span {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .food-options {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .card-content img {
+        height: 120px;
+    }
+}
+
+/* Update emoji sizes */
+.card-content span emoji {
+    font-size: 1.2rem;
+}
+
+/* Add these styles for the place picker */
+.selected-foods {
+    margin: 20px 0;
+    color: #ff6b6b;
+    font-size: 1.1rem;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.3s;
+}
+
+.place-picker {
+    margin: 30px 0;
+    width: 100%;
+    max-width: 400px;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.location-input {
+    width: 100%;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 182, 193, 0.5);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: #ff6b6b;
+    font-family: 'Love Ya Like A Sister', cursive;
+    transition: all 0.3s ease;
+}
+
+.location-input:focus {
+    outline: none;
+    border-color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
+}
+
+.suggestions {
+    margin-top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.suggestion {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 20px;
+    color: #ff6b6b;
+    cursor: pointer;
+    border: 1px solid rgba(255, 182, 193, 0.5);
+    transition: all 0.3s ease;
+    user-select: none; /* Prevent text selection */
+}
+
+.suggestion:hover {
+    background: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion:active {
+    transform: scale(0.95);
+}
+
+/* Add these styles for selected suggestion */
+.suggestion.selected {
+    background: #ff6b6b;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-color: transparent;
+}
+
+@media (max-width: 600px) {
+    .place-picker {
+        padding: 0 20px;
+    }
+    
+    .suggestions {
+        flex-direction: column;
+    }
+}
+
+.question-box {
+    margin: 40px 0;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.answer-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.love-btn {
+    background: linear-gradient(145deg, #ff6b6b, #ff8e8e);
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    padding: 15px 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Love Ya Like A Sister', cursive;
+}
+
+.yes-btn:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: linear-gradient(145deg, #ff8e8e, #ff6b6b);
+}
+
+.no-btn {
+    background: linear-gradient(145deg, #ff4d4d, #ff6666);
+}
+
+/* Add styles for the final message */
+.final-message {
+    margin: 30px 0;
+    opacity: 0;
+    animation: slideUp 0.8s ease-out forwards;
+    animation-delay: 0.5s;
+}
+
+.final-message p {
+    color: #ff6b6b;
+    font-size: 1.2rem;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+.date-time {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid rgba(255, 182, 193, 0.3);
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+} 

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Date Request</title>
+    <link rel="stylesheet" href="final.css">
+    <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+    <style>
+        /* Music Control Button */
+        #musicControl {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        #musicControl:hover {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Let's go on a date ❤️</h1>
+        <h2>When will you be free? 🥰</h2>
+        
+        <div class="date-picker">
+            <input type="date" id="datePicker" class="date-input">
+            <button class="submit-btn" onclick="submitDate()">That's Perfect! 💝</button>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" preload="auto" loop>
+        <source src="Sparkle (Instrumental Only).mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control Button -->
+    <button id="musicControl">🔇</button>
+
+    <script>
+        // Add floating hearts
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+            heart.style.opacity = Math.random() * 0.3 + 0.1;
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 10000);
+        }
+
+        setInterval(createHeart, 300);
+
+        // Date picker functionality
+        function submitDate() {
+            const selectedDate = document.getElementById('datePicker').value;
+            if(selectedDate) {
+                const date = new Date(selectedDate);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+                // Store the date in localStorage
+                localStorage.setItem('selectedDate', formattedDate);
+                // Redirect to the next page immediately
+                window.location.href = '4th.html';
+            } else {
+                alert('Please select a date first! 🥺');
+            }
+        }
+
+        // Set minimum date to today
+        const datePicker = document.getElementById('datePicker');
+        const today = new Date().toISOString().split('T')[0];
+        datePicker.min = today;
+
+        // Music Handling
+        const music = document.getElementById('backgroundMusic');
+        const musicControl = document.getElementById('musicControl');
+
+        // Set initial volume and play music automatically
+        music.volume = 0.5;
+        const playMusic = () => {
+            music.play()
+                .then(() => {
+                    musicControl.textContent = '🔊'; // Update button icon to show music is playing
+                })
+                .catch(error => console.log('Autoplay blocked:', error));
+        };
+
+        // Autoplay music on page load or first user interaction
+        document.addEventListener('click', playMusic, { once: true });
+        playMusic();
+
+        // Toggle music playback on button click
+        musicControl.addEventListener('click', () => {
+            if (music.paused) {
+                music.play();
+                musicControl.textContent = '🔊'; // Update button to unmuted
+            } else {
+                music.pause();
+                musicControl.textContent = '🔇'; // Update button to muted
+            }
+        });
+    </script>
+</body>
+</html>

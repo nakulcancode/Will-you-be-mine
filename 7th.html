@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You! ❤️</title>
+    <link rel="stylesheet" href="final.css">
+    <link href="https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>I Love You Too! ❤️</h1>
+        <div class="final-message">
+            <h2>Thank you for being mine!</h2>
+            <p class="date-time"></p>
+        </div>
+    </div>
+
+    <!-- Audio Element -->
+    <audio id="backgroundMusic" preload="auto" loop autoplay>
+        <source src="perfect.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Music Control Button -->
+    <button id="musicControl" class="music-btn">
+        <span id="musicIcon">🔇</span>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Display saved information
+            const selectedDate = localStorage.getItem('selectedDate');
+            const selectedFoods = JSON.parse(localStorage.getItem('foodChoices') || '[]');
+            const meetingPlace = localStorage.getItem('meetingPlace');
+
+            const dateTimeElement = document.querySelector('.date-time');
+            dateTimeElement.innerHTML = `
+                <p>Our Date: ${selectedDate || 'No date set'}</p>
+                <p>We'll eat: ${selectedFoods.length > 0 ? selectedFoods.join(', ') : 'No food selected'}</p>
+                <p>Meeting at: ${meetingPlace || 'No meeting place set'}</p>
+            `;
+
+            // Music handling
+            const music = document.getElementById('backgroundMusic');
+            const musicBtn = document.getElementById('musicControl');
+            const musicIcon = document.getElementById('musicIcon');
+
+            music.volume = 0.5; // Set volume to 50%
+
+            // Attempt to autoplay music on page load
+            const tryAutoplay = () => {
+                music.play()
+                    .then(() => {
+                        musicIcon.textContent = '🔊';
+                    })
+                    .catch((error) => {
+                        console.log('Autoplay blocked:', error);
+                        musicIcon.textContent = '🔇';
+                    });
+            };
+
+            // Try autoplay when the page loads
+            tryAutoplay();
+
+            // Music button control
+            musicBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Prevent triggering the document click handler
+                if (music.paused) {
+                    music.play()
+                        .then(() => musicIcon.textContent = '🔊')
+                        .catch(error => console.log('Play failed:', error));
+                } else {
+                    music.pause();
+                    musicIcon.textContent = '🔇';
+                }
+            });
+
+            // Floating hearts animation
+            function createHeart() {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = Math.random() * 3 + 3 + 's';
+                heart.style.opacity = Math.random() * 0.3 + 0.1;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 10000);
+            }
+
+            setInterval(createHeart, 300);
+        });
+    </script>
+</body>
+</html>
